@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h4>Edit Transaction</h4>
+<form method="POST">
+    <!-- Description -->
+    <div class="mb-3">
+        <label class="form-label">Description</label>
+        <input type="text" class="form-control" name="description" value="{{ transaction.description }}" required>
+    </div>
+
+    <!-- Amount -->
+    <div class="mb-3">
+        <label class="form-label">Amount</label>
+        <input type="number" class="form-control" name="amount" value="{{ transaction.amount }}" step="0.01" required>
+    </div>
+
+    <!-- Category -->
+    <div class="mb-3">
+        <label class="form-label">Category</label>
+        <select class="form-select" name="category">
+            <option value="Food" {% if transaction.category == "Food" %}selected{% endif %}>Food</option>
+            <option value="Transport" {% if transaction.category == "Transport" %}selected{% endif %}>Transport</option>
+            <option value="Entertainment" {% if transaction.category == "Entertainment" %}selected{% endif %}>Entertainment</option>
+            <option value="Bills" {% if transaction.category == "Bills" %}selected{% endif %}>Bills</option>
+            <option value="Income" {% if transaction.category == "Income" %}selected{% endif %}>Income</option>
+            <option value="Other" {% if transaction.category == "Other" %}selected{% endif %}>Other</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-warning w-100">Save Changes</button>
+    <a href="/" class="btn btn-secondary w-100 mt-2">Cancel</a>
+</form>
+
+{% endblock %}

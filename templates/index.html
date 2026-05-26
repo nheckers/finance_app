@@ -20,9 +20,15 @@
                 <strong>{{ transaction.description }}</strong>
                 <span class="text-muted"> - {{ transaction.category }}</span>
             </div>
-            <span class="badge bg-success rounded-pill">${{ "%.2f"|format(transaction.amount) }}</span>
+            <div class="d-flex align-items-center gap-2">
+                <span class="badge bg-success rounded-pill">${{ "%.2f"|format(transaction.amount) }}</span>
+                <a href="/edit/{{ transaction.id }}" class="btn btn-warning btn-sm">Edit</a>
+                <form method="POST" action="/delete/{{ transaction.id }}">
+                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                </form>
+            </div>
         </li>
-        {% endfor %}
+{% endfor %}
     </ul>
 {% else %}
     <p class="text-muted">No transactions yet. Add one to get started!</p>

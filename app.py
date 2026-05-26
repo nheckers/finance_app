@@ -78,6 +78,42 @@ def add_expense():
 
     return render_template("add_expense.html")
 
+# Delete transaction
+@app.route("/delete/<int:transaction_id>", methods=["POST"])
+@login_required
+def delete_transaction(transaction_id):
+    transaction = Transaction.query.get_or_404(transaction_id)
+    
+    # Make sure the transaction belongs to the current user
+    if transaction.user_id != current_user.id:
+        flash("You don't have permission to delete this.", "danger")
+        return redirect(url_for("index"))
+    
+    db.session.delete(transaction)
+    db.session.commit()
+    return redirect(url_for("index"))
+
+# Edit transaction
+@app.route("/edit/<int:transaction_id>", methods=["GET", "POST"])
+@login_required
+def edit_transaction(transaction_id):
+    transaction = Transaction.query.get_or_404(transaction_id)
+
+    # Make sure the transaction belongs to the current user
+    if transaction.user_id != current_user.id:
+        flash("You don't have permission to edit this.", "danger")
+        return redirect(url_for("index"))
+
+    if request.method == "POST":
+        transaction.description = request.form.get("description")
+        transaction.amount = float(request.form.get("amount"))
+        transaction.category = request.form.get("category")
+
+        db.session.commit()
+        flash("Transaction updated!", "success")
+        return redirect(url_for("index"))
+
+    return render_template("edit_transaction.html", transaction=transaction)
 # Register
 @app.route("/register", methods=["GET", "POST"])
 def register():
