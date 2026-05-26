@@ -13,7 +13,13 @@
     <nav class="navbar navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand" href="/">Finance Tracker</a>
-            <a href="/add" class="btn btn-success">+ Add Transaction</a>
+            {% if current_user.is_authenticated %}
+                <div class="d-flex align-items-center gap-2">
+                    <span class="text-white">Hi, {{ current_user.username }}!</span>
+                    <a href="/add" class="btn btn-success">+ Add Transaction</a>
+                    <a href="/logout" class="btn btn-outline-light">Logout</a>
+                </div>
+            {% endif %}
         </div>
     </nav>
 
